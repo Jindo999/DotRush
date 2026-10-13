@@ -28,6 +28,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			ContextMenuController.activate(context);
 			TestExplorerController.activate(context);
 			LanguageServerController.activate(context);
+			exports.resolveDecompiledSource = (typeFullName: string, memberName?: string) => LanguageServerController.resolveDecompiledSource(typeFullName, memberName);
 		}
 
 		TemplateHostController.activate(context);

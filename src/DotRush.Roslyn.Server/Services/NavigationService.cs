@@ -27,6 +27,9 @@ public class NavigationService : IClearable {
     public Task<FileLinePositionSpan?> EmitCompilerGeneratedFileAsync(Location location, Project project, CancellationToken cancellationToken) {
         return navigationHost.EmitCompilerGeneratedFileAsync(location, project, cancellationToken);
     }
+    public Task<FileLinePositionSpan?> EmitDecompiledFileAsync(ISymbol symbol, Project project, CancellationToken cancellationToken) {
+        return navigationHost.EmitDecompiledFileAsync(symbol, project, cancellationToken);
+    }
     public Solution? GetRequiredSolution(string documentFilePath) {
         if (navigationHost.IsAttachedToHost(documentFilePath))
             return navigationHost.Solution;

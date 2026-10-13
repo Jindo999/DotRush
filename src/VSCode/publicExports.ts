@@ -6,6 +6,7 @@ export class PublicExports {
     public onActiveConfigurationChanged: EventHandler;
     public onActiveFrameworkChanged: EventHandler;
     public onProjectLoaded: EventHandler;
+    public resolveDecompiledSource: (typeFullName: string, memberName?: string) => Promise<unknown>;
 
     constructor() {
         PublicExports.instance = this;
@@ -13,6 +14,7 @@ export class PublicExports {
         this.onActiveConfigurationChanged = new EventHandler();
         this.onActiveFrameworkChanged = new EventHandler();
         this.onProjectLoaded = new EventHandler();
+        this.resolveDecompiledSource = async () => undefined;
     }
 }
 

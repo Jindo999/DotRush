@@ -101,6 +101,7 @@ public class Program {
         // Framework handlers
             .AddHandler(new WorkspaceDiagnosticsHandler(workspaceService, codeAnalysisService))
             .AddHandler(new ReloadWorkspaceHandler(workspaceService, navigationService, codeAnalysisService))
+            .AddHandler(new DecompileTypeHandler(navigationService))
             .AddHandler(new TestExplorerHandler(testExplorerService, workspaceService));
     }
 }

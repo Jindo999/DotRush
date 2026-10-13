@@ -110,6 +110,21 @@ export class LanguageServerController {
         return LanguageServerController.client.sendRequest<T>(method, params);
     }
 
+    // Resolves the metadata-as-source (decompiled) view for a type without opening it.
+    // Safe to call from definition providers: hover previews trigger definition
+    // requests and must not steal focus or open editors as a side effect.
+    public static async resolveDecompiledSource(typeFullName: string, memberName?: string): Promise<vscode.Location | undefined> {
+        const result = await LanguageServerController.sendRequest<DecompiledSourceResult>(
+            "dotrush/decompileType",
+            { typeFullName: typeFullName, memberName: memberName }
+        );
+        if (!result?.filePath)
+            return undefined;
+
+        const position = new vscode.Position(result.line ?? 0, result.character ?? 0);
+        return new vscode.Location(vscode.Uri.file(result.filePath), position);
+    }
+
     private static async showQuickPickTargets(): Promise<void> {
         const result = await Extensions.selectProjectOrSolutionFiles(undefined, true);
         if (result === undefined)
@@ -130,4 +145,10 @@ export class LanguageServerController {
 
         return solutions.length > 1 || projects.length > 1;
     }
+}
+
+interface DecompiledSourceResult {
+    filePath: string;
+    line: number;
+    character: number;
 }
